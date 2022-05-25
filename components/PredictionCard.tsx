@@ -7,10 +7,10 @@ const PredictionCard = ({ logo, token, timeLeft, price, date}:PredictionCardProp
     const router = useRouter();
 
     return (
-        <div  className="w-[40vw] h-[25vh] max-w-[350px] max-h-[250px] bg-gradient-to-r from-[#1D3736]  to-[#07580A] rounded-[15px] m-5 shadow-prediction box-border p-[3%]">
+        <div  className="w-[90%] sm:w-[40vw] sm:h-[25vh] sm:max-w-[350px] sm:max-h-[250px] bg-gradient-to-r from-[#1D3736]  to-[#07580A] rounded-[15px] m-5 shadow-prediction box-border p-[3%]">
             <div className="w-[100%] h-[40%] flex items-center justify-between">
                 <div className="flex items-center justify-start w-[50%]">
-                <img src={logo} alt="" className="w-[8vh] h-[8vh] rounded-[100%] max-w-[50px] max-h-[50px]" />
+                <img src={logo} alt="" className=" rounded-[100%] w-[50px] h-[50px] min-w-[50px] min-h-[50px] max-w-[50px] max-h-[50px]" />
                 <span className="text-[#6BB5FA] text-[2.3rem] text-bold ml-3">{token}</span>
                 </div>
                 <span className="text-[#FAEB6B] text-[1.5rem] text-bold ml-[-30%]">{timeLeft} Left</span>

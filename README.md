@@ -1,5 +1,5 @@
 
-[## LIVE DEMO](https://prediction-game-vert.vercel.app/)
+## [LIVE DEMO](https://prediction-game-vert.vercel.app/)
 
 ## Getting Started
 

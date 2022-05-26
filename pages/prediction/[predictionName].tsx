@@ -36,7 +36,7 @@ const Prediction: NextPage = () => {
           </div>
           <div className="sm:w-[5px] bg-white -mt-4 mb-3 sm:h-[75%] w-[70%] h-[4px] rounded-[100%]"></div>
           <div className="w-[100%] h-[45%]  sm:w-[45%] sm:h-[90%] flex flex-col items-center justify-between pb-[5%]">
-          <span className="text-white font-bold text-[1.4rem] my-3 sm:my-0 2xl:max-h-[35px] sm:text-[2rem]">YOUR PREDICTION</span>
+          <span className="text-white font-bold text-[1.4rem] my-3 sm:my-0 sm:text-[2rem]">YOUR PREDICTION</span>
               <div className="flex flex-col w-[100%] h-[100%] sm:h-[80%] justify-start overflow-y-scroll items-center sm:items-start box-border sm:pl-[25%] scrollbar-hide">
                   <PredictionList index={1} price={'0.000000'} owner={false}/>
                   <PredictionList index={2} price={0} owner={false}/>

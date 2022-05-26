@@ -97,9 +97,6 @@ const Home = () => {
       return (
         <div className="w-[90%] mt-[17vh] grid grid-cols-1 place-items-center sm:grid-cols-3 scrollbar-hide sm:mt-[10%]">
           <PredictionCard
-            logo={
-              "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL0AAAELCAMAAAC77XfeAAAAA1BMVEW3t7eZ6ssfAAAASElEQVR4nO3BMQEAAADCoPVPbQ0PoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADeDcYqAAE00FRDAAAAAElFTkSuQmCC"
-            }
             token={"Matic"}
             timeLeft={"9hr"}
             price={2}

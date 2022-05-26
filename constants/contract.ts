@@ -361,7 +361,7 @@ export const TOKEN_ABI = [
     type: "function",
   },
 ];
-export const GAME_ADDRESS = "0xba90521bDafBc5b3a3ed4749b056bC4F7C6f46Ef";
+export const ETHUSD_ADDRESS = "0xba90521bDafBc5b3a3ed4749b056bC4F7C6f46Ef";
 export const GAME_ABI = [
   {
     inputs: [

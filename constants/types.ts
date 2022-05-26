@@ -28,7 +28,7 @@ export type PredictionDetailsProps = {
   token: string;
   price: number;
   date: string;
-  Fee: number;
+  fee: number;
   predictedValue: string | number;
   reward: string | number;
   frequency: number;

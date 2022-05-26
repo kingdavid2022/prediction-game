@@ -33,28 +33,22 @@ const Home = () => {
       getGameDetails();
       getCurrentPrice();
       getCurrentContest();
+      readAllEvents();
     } catch (err) {
       console.error(err);
     }
   };
 
-  const readEvents = async () => {
+  const readAllEvents = async () => {
     try {
       const provider = await getProviderOrSigner();
       const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
       let cid = await gameContract.contestId();
-      console.log(cid.toNumber())
-      let eventFilter = gameContract.filters.NewPrediction(0);
+      let currentFilter = gameContract.filters.NewPrediction(cid.toNumber());
       let resultFilter = gameContract.filters.Result();
-      let events = await gameContract.queryFilter(eventFilter);
-      events.map((event) => {
-        console.log("contestId=", event.args[0].toString());
-        console.log("value", event.args[1].toString());
-        console.log("time", Date(event.args[2].toString()));
-        console.log("from", event.args[3].toString());
-      });
-      let res = await gameContract.queryFilter(resultFilter);
-      console.log(res)
+      let contestCancelledFilter = gameContract.filters.ContestCancelled();
+      let events = await gameContract.queryFilter(ContestCancelledFilter);
+      console.log(events)
     } catch (err) {
       console.error(err);
     }
@@ -217,13 +211,7 @@ const Home = () => {
       return (
         <div className=" w-[90%] flex flex-col items-center overflow-y-scroll h-auto  sm:grid  place-items-center sm:grid-cols-3  scrollbar-hide mt-[17vh] sm:mt-[10%]">
           <PredictedDetails
-            logo="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL0AAAELCAMAAAC77XfeAAAAA1BMVEW3t7eZ6ssfAAAASElEQVR4nO3BMQEAAADCoPVPbQ0PoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADeDcYqAAE00FRDAAAAAElFTkSuQmCC"
-            Fee={2}
-            date="May 10"
-            predictedValue={"0.0003"}
-            frequency={2}
-            price={2}
-            token="Matic"
+            token="ETH/USD"
             reward={1}
           />
         </div>

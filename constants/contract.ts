@@ -361,7 +361,7 @@ export const TOKEN_ABI = [
     type: "function",
   },
 ];
-export const ETHUSD_ADDRESS = "0xba90521bDafBc5b3a3ed4749b056bC4F7C6f46Ef";
+export const ETHUSD_ADDRESS = "0x26e342f06cCb95554858f00AD3C9B3154c0a6822";
 export const GAME_ABI = [
   {
     inputs: [
@@ -396,13 +396,26 @@ export const GAME_ABI = [
   },
   {
     anonymous: false,
-    inputs: [],
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "contestId",
+        type: "uint256",
+      },
+    ],
     name: "ContestCancelled",
     type: "event",
   },
   {
     anonymous: false,
     inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "contestId",
+        type: "uint256",
+      },
       {
         indexed: false,
         internalType: "int256",
@@ -428,6 +441,12 @@ export const GAME_ABI = [
   {
     anonymous: false,
     inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "contestId",
+        type: "uint256",
+      },
       {
         indexed: false,
         internalType: "int256",
@@ -485,6 +504,19 @@ export const GAME_ABI = [
         internalType: "bytes",
         name: "",
         type: "bytes",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "contestId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",

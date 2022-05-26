@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import PredictionList from '../components/PredictionList';
 import { PredictionPageProps } from "../constants/types";
 
-const PredictionPage = ({ onclick }:PredictionPageProps) => {
+const PredictionPage = ({ onclick, currentPrice, nextContextTime }:PredictionPageProps) => {
   const [price, setprice] = useState('')
   const [token, settoken] = useState('')
   return (

@@ -13,13 +13,13 @@ const Home = () => {
   const [tab, setTab] = useState("contest");
   const [walletConnected, setWalletConnected] = useState(false);
   const [minting, setMinting] = useState(false);
-  const web3ModalRef = useRef<any>();
+  const web3ModalRef = useRef();
   const [notFirstTime, setnotFirstTime] = useState(false)
   const connectWallet = async () => {
     try {
       await getProviderOrSigner();
       setWalletConnected(true);
-      getFirstTimeOrNot();
+      getFirstTimeOrNotAndBalance();
     } catch (err) {
       console.error(err);
     }
@@ -33,7 +33,7 @@ const Home = () => {
       let notFirstTime = await tokenContract.notFirstTime(address);
       let balance = await tokenContract.balanceOf(address);
       console.log(notFirstTime);
-      console.log("balance=>",balance);
+      console.log("balance=>",utils.formatEther(balance));
     } catch (err) {
       console.error(err);
     }
@@ -132,7 +132,7 @@ const Home = () => {
           Connect wallet
         </button>
       ):(
-        <button className={` fixed z-[10] bg-[#099E71] top-[50px] sm:top-[20px] min-h-[30px] min-w-[100px] sm:w-[7vw] sm:min-h-[35px] rounded-[10px] sm:max-h-[40px] right-[20px] sm:right-[20px]`}>
+        <button onClick={mintToken} className={` fixed z-[10] bg-[#099E71] top-[50px] sm:top-[20px] min-h-[30px] min-w-[100px] sm:w-[7vw] sm:min-h-[35px] rounded-[10px] sm:max-h-[40px] right-[20px] sm:right-[20px]`}>
         {!notFirstTime ? "Mint":"Mint(0.01eth)"}
       </button>
       )}

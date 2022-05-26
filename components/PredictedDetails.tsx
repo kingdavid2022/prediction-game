@@ -14,7 +14,7 @@ const PredictedDetails = ({ reward, token, completed }: PredictionDetailsProps) 
       <div className="w-[100%]  flex flex-col items-start justify-evenly mt-[8%]">
         <div className="flex flex-col ">
           <span className="text-black text-[1.3rem]">
-            {!completed ? "status : OnGoing":`Reward : ${reward} Token`}
+            {!completed ? "status : Ongoing...":`Reward : ${reward} Token`}
           </span>
           <span className="text-black text-[1.3rem]">
             Fee : 1 Token

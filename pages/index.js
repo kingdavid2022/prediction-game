@@ -25,6 +25,7 @@ const Home = () => {
   const [currentPrice, setCurrentPrice] = useState("");
   const [predictButtonStatus, setPredictButtonStatus] = useState("Predict");
   const [currentArray, setCurrentArray] = useState([]);
+  const [allTransactions, setAllTransactions] = useState([]);
   const connectWallet = async () => {
     try {
       await getProviderOrSigner();
@@ -67,7 +68,7 @@ const Home = () => {
       let cancelledArray = cancelled.map((data) => {
         return data.args[0].toNumber();
       });
-      let combinedArray =[];
+      let combinedArray = [];
       for (let i = 0; i < cid; i++) {
         if (cancelledArray.includes(i)) {
           let currentFilter = gameContract.filters.NewPrediction(i);
@@ -78,7 +79,7 @@ const Home = () => {
               return { reward: 1, completed: true };
             }
           });
-          combinedArray=[...combinedArray,...a];
+          combinedArray = [...combinedArray, ...a];
           console.log(a);
         } else {
           let resultFilter = gameContract.filters.Result(i);
@@ -86,14 +87,25 @@ const Home = () => {
           res.map((r) => {
             let result = r.args[2].map((ad, index) => {
               if (ad[3] == address) {
-                return ({ reward: rewardArray[index], completed: true,address:ad[3] });
+                return { reward: rewardArray[index], completed: true };
               }
-            })
-            combinedArray=[...combinedArray,...result]
+            });
+            combinedArray = [...combinedArray, ...result];
           });
         }
       }
-      console.log(combinedArray);
+      let latest = await gameContract.queryFilter(currentFilter);
+      let latestResult = latest.map((l) => {
+        if (l.args[3] == address) {
+          return { reward: 0, completed: false };
+        }
+      });
+      combinedArray = [...combinedArray, ...latestResult];
+      combinedArray = combinedArray.filter((element) =>
+        typeof element != undefined ? element : null
+      );
+      setAllTransactions(combinedArray.reverse());
+
       // {
       //   reward;
       //   status:true | false;
@@ -259,7 +271,15 @@ const Home = () => {
     } else if (tab == "Your Predictions") {
       return (
         <div className=" w-[90%] flex flex-col items-center overflow-y-scroll h-auto  sm:grid  place-items-center sm:grid-cols-3  scrollbar-hide mt-[17vh] sm:mt-[10%]">
-          <PredictedDetails token="ETH/USD" reward={1} completed={false} />
+          {allTransactions &&
+            allTransactions.map((data, index) => (
+              <PredictedDetails
+                key={index}
+                token="ETH/USD"
+                reward={data.reward}
+                completed={data.completed}
+              />
+            ))}
         </div>
       );
     } else return null;

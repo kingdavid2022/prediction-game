@@ -90,37 +90,7 @@ const Home = () => {
     }
   };
 
-  const getTime = () =>{
-    
-
-    var x = setInterval(function () {
-    var countDownDate = new Date(nextContestTime).getTime();
-
-      var now = new Date().getTime();
-
-      // Find the distance between now and the count down date
-      var distance = countDownDate - now;
-
-      // Time calculations for days, hours, minutes and seconds
-      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      var hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      // Display the result in the element with id="demo"
-      // console.log(nextContestTime)
-      // console.log(days + "d " + hours + "h " + minutes + "m " + seconds + "s ")
-      sethours(hours)
-      setminutes(minutes)
-      setseconds(seconds)
-      // If the count down is finished, write some text
-      if (distance < 0) {
-        clearInterval(x);
-      }
-    }, 1000);
-  }
+ 
 
 
   const getFirstTimeOrNotAndBalance = async () => {
@@ -187,7 +157,6 @@ const Home = () => {
       });
       connectWallet();
     }
-    getTime()
   }, [walletConnected]);
 
   const RenderTabs = () => {
@@ -200,9 +169,7 @@ const Home = () => {
             price={2}
             date={"May 10"}
             onclick={() => setpredict(true)}
-            hours={hours}
-            minutes={minutes}
-            seconds={seconds}
+            time={new Date(nextContestTime)}
           />
         </div>
       );
@@ -233,7 +200,7 @@ const Home = () => {
       </Head>
       {
         predict ? (
-          <PredictionPage predictPrice={predictPrice} nextContextTime={nextContestTime} currentPrice={currentPrice} onclick={() => setpredict(false)} hours={hours} minutes={minutes} seconds={seconds} />
+          <PredictionPage predictPrice={predictPrice} nextContextTime={nextContestTime} currentPrice={currentPrice} onclick={() => setpredict(false)} time={new Date(nextContestTime)} />
         ) : (
           <>
             {walletConnected && (

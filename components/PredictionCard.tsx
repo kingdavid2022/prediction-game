@@ -4,12 +4,12 @@ import { PredictionCardProps } from "../constants/types";
 
 const PredictionCard = ({
   token,
-   hours,
-   minutes,
-   seconds,
+  hours,
+  minutes,
+  seconds,
   price,
   date,
-  onclick
+  onclick,
 }: PredictionCardProps) => {
   const router = useRouter();
 
@@ -22,7 +22,9 @@ const PredictionCard = ({
           </span>
         </div>
         <span className="text-[#26a521] text-[1rem] text-bold ml-[-30%]">
-          {hours<10?`0${hours}`:hours}hr {minutes<10?`0${minutes}`:minutes}m {seconds<10?`0${seconds}`:seconds}s Left
+          {hours < 10 ? `0${hours}` : hours}hr{" "}
+          {minutes < 10 ? `0${minutes}` : minutes}m{" "}
+          {seconds < 10 ? `0${seconds}` : seconds}s Left
         </span>
       </div>
       <div className="w-[100%] h-[50%] flex flex-col items-start justify-center mt-[3%]">

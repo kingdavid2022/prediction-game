@@ -93,10 +93,15 @@ const Home = () => {
   const getTime = () =>{
     
 
-   setInterval(function () {
+    var x = setInterval(function () {
     var countDownDate = new Date(nextContestTime).getTime();
+
       var now = new Date().getTime();
+
+      // Find the distance between now and the count down date
       var distance = countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
       var days = Math.floor(distance / (1000 * 60 * 60 * 24));
       var hours = Math.floor(
         (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -111,6 +116,9 @@ const Home = () => {
       setminutes(minutes)
       setseconds(seconds)
       // If the count down is finished, write some text
+      if (distance < 0) {
+        clearInterval(x);
+      }
     }, 1000);
   }
 

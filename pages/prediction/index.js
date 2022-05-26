@@ -4,15 +4,9 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import PredictionList from '../../components/PredictionList';
 
-const Prediction: NextPage = () => {
-  const router = useRouter();
-  const [price, setprice] = useState<string | undefined | string[]>('')
-  const [token, settoken] = useState<string | undefined | string[]>('')
-  useEffect(() => {
-    setprice(router.query.predictionName?.slice(6,7))
-    settoken(router.query.predictionName?.slice(13))
-  }, []);
-
+const Prediction = () => {
+  const [price, setprice] = useState('')
+  const [token, settoken] = useState('')
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-black">
       <Head>
@@ -36,23 +30,23 @@ const Prediction: NextPage = () => {
           </div>
           <div className="sm:w-[5px] bg-white -mt-4 mb-3 sm:h-[75%] w-[70%] h-[4px] rounded-[100%]"></div>
           <div className="w-[100%] h-[45%]  sm:w-[45%] sm:h-[90%] flex flex-col items-center justify-between pb-[5%]">
-          <span className="text-white font-bold text-[1.4rem] my-3 sm:my-0 sm:text-[2rem]">YOUR PREDICTION</span>
-              <div className="flex flex-col w-[100%] h-[100%] sm:h-[80%] justify-start overflow-y-scroll items-center sm:items-start box-border sm:pl-[25%] scrollbar-hide">
-                  <PredictionList index={1} price={'0.000000'} owner={false}/>
-                  <PredictionList index={2} price={0} owner={false}/>
-                   <PredictionList index={3} price={'0.000000'} owner={false}/>
-                  <PredictionList index={4} price={'0.000000'} owner={false}/>
-                  <PredictionList index={5} price={1} owner={true}/>
-                   <PredictionList index={6} price={'0.000000'} owner={false}/>
-                  <PredictionList index={7} price={1.2} owner={false}/>
-                   <PredictionList index={8} price={'0.000000'} owner={false}/>
-                  <PredictionList index={9} price={'0.000000'} owner={false}/>
-                  <PredictionList index={5} price={1} owner={false}/>
-                   <PredictionList index={6} price={'0.000000'} owner={false}/>
-                  <PredictionList index={7} price={1.2} owner={false}/>
-                   <PredictionList index={8} price={'0.000000'} owner={false}/>
-                  <PredictionList index={9} price={'0.000000'} owner={false}/>
-              </div>
+            <span className="text-white font-bold text-[1.4rem] my-3 sm:my-0 sm:text-[2rem]">YOUR PREDICTION</span>
+            <div className="flex flex-col w-[100%] h-[100%] sm:h-[80%] justify-start overflow-y-scroll items-center sm:items-start box-border sm:pl-[25%] scrollbar-hide">
+              <PredictionList index={1} price={'0.000000'} owner={false} />
+              <PredictionList index={2} price={0} owner={false} />
+              <PredictionList index={3} price={'0.000000'} owner={false} />
+              <PredictionList index={4} price={'0.000000'} owner={false} />
+              <PredictionList index={5} price={1} owner={true} />
+              <PredictionList index={6} price={'0.000000'} owner={false} />
+              <PredictionList index={7} price={1.2} owner={false} />
+              <PredictionList index={8} price={'0.000000'} owner={false} />
+              <PredictionList index={9} price={'0.000000'} owner={false} />
+              <PredictionList index={5} price={1} owner={false} />
+              <PredictionList index={6} price={'0.000000'} owner={false} />
+              <PredictionList index={7} price={1.2} owner={false} />
+              <PredictionList index={8} price={'0.000000'} owner={false} />
+              <PredictionList index={9} price={'0.000000'} owner={false} />
+            </div>
           </div>
         </div>
       </div>

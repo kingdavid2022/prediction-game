@@ -24,7 +24,7 @@ const PredictionCard = ({
       </div>
       <div className="w-[100%] h-[50%] flex flex-col items-start justify-center mt-[3%]">
         <span className="text-white text-[1.2rem]">
-          Prediction fee : {price} {token}
+          Prediction fee : 1 TOKEN
         </span>
         <div className=" w-[100%] flex items-center justify-between">
           <span className="text-white text-[0.8rem]">
@@ -32,7 +32,7 @@ const PredictionCard = ({
           </span>
           <button
             onClick={() =>
-              router.push(`/prediction/price=${price}token=${token}`)
+              router.push(`/prediction/`)
             }
             className="bg-[#099E71] w-[30%] max-w-[100px] min-h-[30px] max-h-[35px] rounded-[10px] text-white text-[0.9rem]"
           >

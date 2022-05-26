@@ -7,7 +7,7 @@ import { Tabs } from "../constants/types";
 
 import Web3Modal from "web3modal";
 import { providers, Contract, utils } from "ethers";
-import { TOKEN_ABI, TOKEN_ADDRESS } from "../constants/contract";
+import { TOKEN_ABI, TOKEN_ADDRESS, ETHUSD_ADDRESS, GAME_ABI } from "../constants/contract";
 
 const Home = () => {
   const [tab, setTab] = useState("contest");
@@ -16,15 +16,37 @@ const Home = () => {
   const [minting, setMinting] = useState(false);
   const web3ModalRef = useRef();
   const [notFirstTime, setnotFirstTime] = useState(false);
+  const [gameName, setGameName] = useState("");
+  const [nextContestTime, setNextContestTime] = useState();
   const connectWallet = async () => {
     try {
       await getProviderOrSigner();
       setWalletConnected(true);
       getFirstTimeOrNotAndBalance();
+      getGameDetails();
     } catch (err) {
       console.error(err);
     }
   };
+  const getGameDetails = async () => {
+    try {
+      const provider = await getProviderOrSigner();
+      const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
+
+      let lastTimeStamp = await gameContract.lastTimeStamp() * 1000;
+      let interval = await gameContract.interval() * 1000;
+      let name = await gameContract.name();
+      console.log("name=>", name);
+      console.log("lastTimeStamp=>", lastTimeStamp);
+      console.log("interval=>", interval);
+      setGameName(name);
+      setNextContestTime(lastTimeStamp + interval);
+      // let date = Date(lastTimeStamp + interval)
+      console.log("nextContest=", date)
+    } catch (err) {
+      console.error(err);
+    }
+  }
   const getFirstTimeOrNotAndBalance = async () => {
     try {
       const signer = await getProviderOrSigner(true);
@@ -97,7 +119,7 @@ const Home = () => {
       return (
         <div className="w-[90%] mt-[17vh] grid grid-cols-1 place-items-center sm:grid-cols-3 scrollbar-hide sm:mt-[10%]">
           <PredictionCard
-            token={"Matic"}
+            token={gameName}
             timeLeft={"9hr"}
             price={2}
             date={"May 10"}
@@ -150,17 +172,15 @@ const Home = () => {
       <div className=" fixed w-[100%] h-[18vh] sm:h-[20vh] flex bg-black items-end sm:items-center justify-start box-border pl-[4%]">
         <button
           onClick={() => setTab("contest")}
-          className={`w-[30%] h-[30%] sm:w-[13%] sm:h-[40%] bg-[#343434] mr-[3%] rounded-[10px] ${
-            tab == "contest" ? "text-[#099E71]" : "text-white"
-          } text-[1.3rem] ml-[2%]`}
+          className={`w-[30%] h-[30%] sm:w-[13%] sm:h-[40%] bg-[#343434] mr-[3%] rounded-[10px] ${tab == "contest" ? "text-[#099E71]" : "text-white"
+            } text-[1.3rem] ml-[2%]`}
         >
           Contests
         </button>
         <button
           onClick={() => setTab("Your Predictions")}
-          className={` w-[45%] h-[30%] sm:w-[18%] sm:h-[40%] bg-[#343434] rounded-[10px] ${
-            tab == "Your Predictions" ? "text-[#099E71]" : "text-white"
-          } text-[1.2rem] sm:text-[1.3rem]`}
+          className={` w-[45%] h-[30%] sm:w-[18%] sm:h-[40%] bg-[#343434] rounded-[10px] ${tab == "Your Predictions" ? "text-[#099E71]" : "text-white"
+            } text-[1.2rem] sm:text-[1.3rem]`}
         >
           Your Predictions
         </button>

@@ -3,8 +3,13 @@ export type PredictionCardProps = {
    token:string,
    timeLeft:string | number,
    price:number,
-   date:string
+   date:string,
+   onclick:any
 }
+export type PredictionPageProps = {
+    onclick:any
+ }
+ 
 
 export type ListProps = {
     index:number,

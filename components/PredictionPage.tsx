@@ -36,8 +36,8 @@ const PredictionPage = ({
           Predict ETH/USD price on{" "}
           {time.getHours() > 12
             ? (time.getHours() - 12).toString()
-            : time.getHours().toString()}
-          :{time.getMinutes().toString()}{time.getHours()>=12?'PM':'AM'} {time.toLocaleDateString("en-US")}
+            : (time.getHours()<10?`0${time.getHours()}`: time.getHours().toString())}
+          :{time.getMinutes()<10?`0${time.getMinutes()}`: time.getMinutes().toString()}{time.getHours()>=12?'PM':'AM'} {time.toLocaleDateString("en-US")}
         </span>
         <div className="w-[100%] h-[100%] flex flex-col sm:flex-row items-center justify-start sm:justify-evenly">
           <div className="w-[100%] h-[45%] sm:w-[45%] sm:h-[90%] flex flex-col items-center sm:items-start justify-center sm:justify-between box-border sm:pl-[5%]">

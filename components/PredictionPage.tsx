@@ -5,11 +5,12 @@ import PredictionList from "../components/PredictionList";
 import { PredictionPageProps } from "../constants/types";
 
 const PredictionPage = ({
+  predictButtonStatus,
   onclick,
   predictPrice,
   currentPrice,
   nextContextTime,
-  time
+  time,
 }: PredictionPageProps) => {
   const [amount, setAmount] = useState("");
   return (
@@ -27,8 +28,11 @@ const PredictionPage = ({
       </div>
       <div className="w-[90%] h-[85%] sm:w-[80%] sm:h-[75%] flex flex-col items-center justify-start bg-white border-[5px] border-black shadow-prediction rounded-[20px] box-border pt-2">
         <span className="text-black text-[1rem] text-center sm:text-[1.2rem] mt-2 sm:mt-0">
-          Predict ETH/USD price on {time.getHours()>12?(time.getHours() - 12).toString():time.getHours().toString()}:{time.getMinutes().toString()}PM {time.toLocaleDateString("en-US")}
-
+          Predict ETH/USD price on{" "}
+          {time.getHours() > 12
+            ? (time.getHours() - 12).toString()
+            : time.getHours().toString()}
+          :{time.getMinutes().toString()}PM {time.toLocaleDateString("en-US")}
         </span>
         <div className="w-[100%] h-[100%] flex flex-col sm:flex-row items-center justify-start sm:justify-evenly">
           <div className="w-[100%] h-[45%] sm:w-[45%] sm:h-[90%] flex flex-col items-center sm:items-start justify-center sm:justify-between box-border sm:pl-[5%]">
@@ -51,10 +55,13 @@ const PredictionPage = ({
               </span>
             </div>
             <button
-              onClick={() => predictPrice(amount)}
-              className="self-end -mt-[2px] sm:mt-0 w-[30%] min-h-[30px] max-h-[40px] rounded-[10px] bg-[#099E71] m-9 text-black text-[1.3rem]"
+              onClick={() =>
+                predictButtonStatus == "Predict" && predictPrice(amount)
+              }
+              className={`${predictButtonStatus != "Predict" &&
+                "cursor-not-allowed"} self-end -mt-[2px] sm:mt-0 w-[30%] min-h-[30px] max-h-[40px] rounded-[10px] bg-[#099E71] m-9 text-black text-[1.3rem]`}
             >
-              Predict
+              {predictButtonStatus}
             </button>
           </div>
           <div className="sm:w-[5px] bg-black -mt-4 mb-3 sm:h-[75%] w-[70%] h-[4px] rounded-[100%]"></div>

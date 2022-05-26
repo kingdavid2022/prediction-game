@@ -1,9 +1,7 @@
-import { NextPage } from "next";
 import Head from "next/head";
 import { useState, useEffect, useRef } from "react";
 import PredictedDetails from "../components/PredictedDetails";
 import PredictionCard from "../components/PredictionCard";
-import { Tabs } from "../constants/types";
 
 import Web3Modal from "web3modal";
 import { providers, Contract, utils } from "ethers";
@@ -24,10 +22,22 @@ const Home = () => {
       setWalletConnected(true);
       getFirstTimeOrNotAndBalance();
       getGameDetails();
+      getCurrentPrice();
     } catch (err) {
       console.error(err);
     }
   };
+  const getCurrentPrice = async () => {
+    try {
+      const provider = await getProviderOrSigner();
+      const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
+      let [currentPrice,timestamp] = await gameContract.currentResult();
+      console.log("currentPrice",currentPrice);
+      console.log("timestamp",timestamp*1000);
+    } catch (err) {
+      console.error(err);
+    }
+  }
   const getGameDetails = async () => {
     try {
       const provider = await getProviderOrSigner();
@@ -42,7 +52,7 @@ const Home = () => {
       setGameName(name);
       setNextContestTime(lastTimeStamp + interval);
       // let date = Date(lastTimeStamp + interval)
-      console.log("nextContest=", date)
+      // console.log("nextContest=", date)
     } catch (err) {
       console.error(err);
     }

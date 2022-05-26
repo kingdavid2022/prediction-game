@@ -19,7 +19,7 @@ const PredictionPage = ({ onclick }:PredictionPageProps) => {
       </div>
       <div className="w-[90%] h-[85%] sm:w-[80%] sm:h-[75%] flex flex-col items-center justify-start bg-white border-[5px] border-black shadow-prediction rounded-[20px] box-border pt-2">
         <span className="text-black text-[1rem] text-center sm:text-[1.2rem] mt-2 sm:mt-0">
-          Predict the price of Matic on 12:00, May 10
+          Predict ETH/USD price on 12:00, May 10
         </span>
         <div className="w-[100%] h-[100%] flex flex-col sm:flex-row items-center justify-start sm:justify-evenly">
           <div className="w-[100%] h-[45%] sm:w-[45%] sm:h-[90%] flex flex-col items-center sm:items-start justify-center sm:justify-between box-border sm:pl-[5%]">

@@ -26,7 +26,7 @@ const PredictionCard = ({
         </span>
         <div className=" w-[100%] flex items-center justify-between">
           <span className="text-black text-[0.8rem]">
-            Participate for {time.getHours()>12?(time.getHours() - 12).toString():time.getHours().toString()}:{time.getMinutes().toString()}{time.getHours()>12?'PM':'AM'} {time.toLocaleDateString("en-US")}
+            Participate for {time.getHours()>12?(time.getHours() - 12).toString():time.getHours().toString()}:{time.getMinutes().toString()}{time.getHours()>=12?'PM':'AM'} {time.toLocaleDateString("en-US")}
           </span>
           <button
             onClick={onclick}

@@ -33,11 +33,24 @@ const Home = () => {
       getFirstTimeOrNotAndBalance();
       getGameDetails();
       getCurrentPrice();
+      readEvents()
     } catch (err) {
       console.error(err);
     }
   };
 
+  const readEvents = async () => {
+    try {
+      console.log("got here")
+      const provider = await getProviderOrSigner();
+      const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
+      let eventFilter = gameContract.filters.ContestCancelled();
+      let events = await gameContract.queryFilter(eventFilter)
+      console.log(events)
+    } catch (err) {
+      console.error(err);
+    }
+  }
   const predictPrice = async (amount) => {
     try {
       console.log("got here")
@@ -84,13 +97,11 @@ const Home = () => {
       setNextContestTime(lastTimeStamp + interval);
       // let date = Date(lastTimeStamp + interval)
 
-      console.log("nextContest=", date);
     } catch (err) {
       console.error(err);
     }
   };
 
- 
 
 
   const getFirstTimeOrNotAndBalance = async () => {

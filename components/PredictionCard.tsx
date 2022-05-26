@@ -7,7 +7,7 @@ const PredictionCard = ({
   time,
   price,
   date,
-  onclick
+  onclick,
 }: PredictionCardProps) => {
   const router = useRouter();
 
@@ -19,7 +19,6 @@ const PredictionCard = ({
             {token}
           </span>
         </div>
-        
       </div>
       <div className="w-[100%] h-[50%] flex flex-col items-start justify-center mt-[3%]">
         <span className="text-black text-[1.2rem]">

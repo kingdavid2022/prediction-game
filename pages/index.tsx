@@ -17,6 +17,19 @@ const Home: NextPage = () => {
     try {
       await getProviderOrSigner();
       setWalletConnected(true);
+      getFirstTimeOrNot();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const getFirstTimeOrNot = async () => {
+    try {
+      const signer = await getProviderOrSigner(true);
+      const tokenContract = new Contract(TOKEN_ADDRESS, TOKEN_ABI, signer);
+      // Get the address associated to the signer which is connected to  MetaMask
+      const address = await signer.getAddress();
+      let notFirstTime = await tokenContract.notFirstTime(address);
+      console.log(notFirstTime);
     } catch (err) {
       console.error(err);
     }

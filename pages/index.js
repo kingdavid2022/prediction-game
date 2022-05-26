@@ -24,7 +24,7 @@ const Home = () => {
   const [predict, setpredict] = useState(false);
   const [currentPrice, setCurrentPrice] = useState("");
   const [predictButtonStatus, setPredictButtonStatus] = useState("Predict");
-  const [currentArray, setCurrentArray] = useState([])
+  const [currentArray, setCurrentArray] = useState([]);
   const connectWallet = async () => {
     try {
       await getProviderOrSigner();
@@ -47,11 +47,11 @@ const Home = () => {
       gameContract.on("NewPrediction", (contestId, value, time, from) => {
         console.log("event", from);
         getCurrentContest();
-      })
+      });
     } catch (err) {
       console.error(err);
     }
-  }
+  };
   const readAllEvents = async () => {
     try {
       const provider = await getProviderOrSigner();
@@ -59,14 +59,41 @@ const Home = () => {
       let address = await signer.getAddress();
       const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
       let cid = await gameContract.contestId();
+      console.log("cid", cid);
       let currentFilter = gameContract.filters.NewPrediction(cid.toNumber());
-      let resultFilter = gameContract.filters.Result();
+      let rewardArray = [4, 2.5, 1.5, 0.75, 0.25, 0.2, 0.2, 0.2, 0.2, 0.2];
       let contestCancelledFilter = gameContract.filters.ContestCancelled();
       let cancelled = await gameContract.queryFilter(contestCancelledFilter);
-      let cancelledArray = cancelled.map(data => {
-        return (data.args[0].toNumber())
-      })
-      console.log(cancelledArray)
+      let cancelledArray = cancelled.map((data) => {
+        return data.args[0].toNumber();
+      });
+      let combinedArray =[];
+      for (let i = 0; i < cid; i++) {
+        if (cancelledArray.includes(i)) {
+          let currentFilter = gameContract.filters.NewPrediction(i);
+          let res = await gameContract.queryFilter(currentFilter);
+          // console.log(i, res)
+          let a = res.map((r) => {
+            if (r.args[3] == address) {
+              return { reward: 1, completed: true };
+            }
+          });
+          combinedArray=[...combinedArray,...a];
+          console.log(a);
+        } else {
+          let resultFilter = gameContract.filters.Result(i);
+          let res = await gameContract.queryFilter(resultFilter);
+          res.map((r) => {
+            let result = r.args[2].map((ad, index) => {
+              if (ad[3] == address) {
+                return ({ reward: rewardArray[index], completed: true,address:ad[3] });
+              }
+            })
+            combinedArray=[...combinedArray,...result]
+          });
+        }
+      }
+      console.log(combinedArray);
       // {
       //   reward;
       //   status:true | false;
@@ -79,17 +106,17 @@ const Home = () => {
     try {
       const provider = await getProviderOrSigner();
       const signer = await getProviderOrSigner(true);
-      let address = await signer.getAddress()
+      let address = await signer.getAddress();
       const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
       let cid = await gameContract.contestId();
       let eventFilter = gameContract.filters.NewPrediction(cid.toNumber());
       let events = await gameContract.queryFilter(eventFilter);
       let arr = events.map((event) => {
         let owner = event.args[3].toString() == address;
-        return ({ value: (event.args[1] / 100000000).toString(), owner });
+        return { value: (event.args[1] / 100000000).toString(), owner };
       });
-      console.log(arr)
-      setCurrentArray(arr.reverse())
+      console.log(arr);
+      setCurrentArray(arr.reverse());
     } catch (err) {
       console.error(err);
     }
@@ -232,11 +259,7 @@ const Home = () => {
     } else if (tab == "Your Predictions") {
       return (
         <div className=" w-[90%] flex flex-col items-center overflow-y-scroll h-auto  sm:grid  place-items-center sm:grid-cols-3  scrollbar-hide mt-[17vh] sm:mt-[10%]">
-          <PredictedDetails
-            token="ETH/USD"
-            reward={1}
-            completed={false}
-          />
+          <PredictedDetails token="ETH/USD" reward={1} completed={false} />
         </div>
       );
     } else return null;

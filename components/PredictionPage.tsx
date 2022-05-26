@@ -6,6 +6,7 @@ import { PredictionPageProps } from "../constants/types";
 
 const PredictionPage = ({
   onclick,
+  predictPrice,
   currentPrice,
   nextContextTime,
 }: PredictionPageProps) => {
@@ -47,7 +48,10 @@ const PredictionPage = ({
                 Current price : {currentPrice}
               </span>
             </div>
-            <button className="self-end -mt-[2px] sm:mt-0 w-[30%] min-h-[30px] max-h-[40px] rounded-[10px] bg-[#099E71] m-9 text-black text-[1.3rem]">
+            <button
+              onClick={() => predictPrice(amount)}
+              className="self-end -mt-[2px] sm:mt-0 w-[30%] min-h-[30px] max-h-[40px] rounded-[10px] bg-[#099E71] m-9 text-black text-[1.3rem]"
+            >
               Predict
             </button>
           </div>

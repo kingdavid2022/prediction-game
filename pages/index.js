@@ -226,6 +226,7 @@ const Home = () => {
           <PredictedDetails
             token="ETH/USD"
             reward={1}
+            completed={false}
           />
         </div>
       );

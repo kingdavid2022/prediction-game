@@ -33,4 +33,5 @@ export type PredictionDetailsProps = {
   predictedValue: string | number;
   reward: string | number;
   frequency: number;
+  completed:boolean
 };

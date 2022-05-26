@@ -34,7 +34,7 @@ const Home = () => {
       let notFirstTime = await tokenContract.notFirstTime(address);
       let balance = await tokenContract.balanceOf(address);
       setnotFirstTime(notFirstTime);
-      setbalance(balance)
+      setbalance(utils.formatEther(balance))
       console.log(notFirstTime);
       console.log("balance=>",utils.formatEther(balance));
     } catch (err) {
@@ -132,18 +132,14 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="fixed z-[10] flex items-center justify-center top-[50px] sm:top-[60px] min-h-[30px] min-w-[180px] text-white sm:w-[7vw] sm:min-h-[35px] rounded-[10px] sm:max-h-[40px] right-[20px] sm:right-[20px]">
-        balance: 
+        balance: {balance}
       </div>
       {!walletConnected ? (
         <button className="fixed z-[10] bg-[#099E71] top-[10px] sm:w-[10vw] min-w-[150px] min-h-[30px] sm:min-h-[35px] rounded-[10px] max-h-[40px] right-[10px]">
           Connect wallet
         </button>
       ):(
-<<<<<<< HEAD
-        <button className={` fixed z-[10] bg-[#099E71] top-[50px] sm:top-[20px] min-h-[30px] min-w-[100px] sm:w-[7vw] sm:min-h-[35px] rounded-[10px] sm:max-h-[40px] right-[20px] sm:right-[40px]`}>
-=======
         <button onClick={mintToken} className={` fixed z-[10] bg-[#099E71] top-[50px] sm:top-[20px] min-h-[30px] min-w-[100px] sm:w-[7vw] sm:min-h-[35px] rounded-[10px] sm:max-h-[40px] right-[20px] sm:right-[20px]`}>
->>>>>>> 70ab14957d3e110dd969ecbc665bd03399c410f6
         {!notFirstTime ? "Mint":"Mint(0.01eth)"}
       </button>
       )}

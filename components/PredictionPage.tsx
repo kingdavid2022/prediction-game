@@ -21,7 +21,7 @@ const PredictionPage = ({
       </Head>
       <div
         onClick={onclick}
-        className=" absolute top-[20px] left-[20px] flex items-center justify-center sm:w-[100px] sm:h-[35px] bg-[#099E71] text-white text-[1.2rem] rounded-[10px] cursor-pointer"
+        className=" absolute top-[20px] left-[20px] flex items-center justify-center w-[80px] h-[35px] sm:w-[100px] sm:h-[35px] bg-[#099E71] text-white text-[1.2rem] rounded-[10px] cursor-pointer"
       >
         Back
       </div>

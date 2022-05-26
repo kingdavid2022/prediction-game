@@ -52,7 +52,7 @@ const Home = () => {
       let txn;
       if (notFirstTime) {
         txn = await tokenContract.mint({
-          value: utils.parseEther("1.0"),
+          value: utils.parseEther("0.01"),
         });
       } else {
         txn = await tokenContract.mint();
@@ -60,6 +60,7 @@ const Home = () => {
       setMinting(true);
       await txn.wait();
       setMinting(false);
+      getFirstTimeOrNotAndBalance();
     } catch (err) {
       console.error(err);
     }

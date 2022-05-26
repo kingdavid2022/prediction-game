@@ -13,6 +13,7 @@ export type PredictionPageProps = {
   nextContextTime: string | Date;
   time:Date
   predictPrice:any,
+  currentArray:Array<any>
 };
 
 export type ListProps = {

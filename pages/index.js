@@ -6,14 +6,15 @@ import PredictionCard from "../components/PredictionCard";
 import { Tabs } from "../constants/types";
 
 import Web3Modal from "web3modal";
-import { providers, Contract } from "ethers";
+import { providers, Contract, utils } from "ethers";
 import { TOKEN_ABI, TOKEN_ADDRESS } from "../constants/contract";
 
 const Home = () => {
   const [tab, setTab] = useState("contest");
   const [walletConnected, setWalletConnected] = useState(false);
+  const [minting, setMinting] = useState(false);
+  const web3ModalRef = useRef<any>();
   const [notFirstTime, setnotFirstTime] = useState(false)
-  const web3ModalRef = useRef();
   const connectWallet = async () => {
     try {
       await getProviderOrSigner();
@@ -23,14 +24,38 @@ const Home = () => {
       console.error(err);
     }
   };
-  const getFirstTimeOrNot = async () => {
+  const getFirstTimeOrNotAndBalance = async () => {
     try {
       const signer = await getProviderOrSigner(true);
       const tokenContract = new Contract(TOKEN_ADDRESS, TOKEN_ABI, signer);
       // Get the address associated to the signer which is connected to  MetaMask
       const address = await signer.getAddress();
       let notFirstTime = await tokenContract.notFirstTime(address);
+      let balance = await tokenContract.balanceOf(address);
       console.log(notFirstTime);
+      console.log("balance=>",balance);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const mintToken = async () => {
+    try {
+      const signer = await getProviderOrSigner(true);
+      const tokenContract = new Contract(TOKEN_ADDRESS, TOKEN_ABI, signer);
+      // Get the address associated to the signer which is connected to  MetaMask
+      const address = await signer.getAddress();
+      let notFirstTime = await tokenContract.notFirstTime(address);
+      let txn;
+      if (notFirstTime) {
+        txn = await tokenContract.mint({
+          value: utils.parseEther("1.0"),
+        });
+      } else {
+        txn = await tokenContract.mint();
+      }
+      setMinting(true);
+      await txn.wait();
+      setMinting(false);
     } catch (err) {
       console.error(err);
     }

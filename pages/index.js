@@ -111,7 +111,8 @@ const Home = () => {
         {!notFirstTime ? "Mint":"Mint(0.01eth)"}
       </button>
       )}
-      
+
+  
       <div className=" fixed w-[100%] h-[18vh] sm:h-[20vh] flex bg-black items-end sm:items-center justify-start box-border pl-[4%]">
         <button
           onClick={() => setTab("contest")}

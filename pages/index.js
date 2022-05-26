@@ -37,13 +37,34 @@ const Home = () => {
       console.error(err);
     }
   };
+
+  const predictPrice = async (amount) => {
+    try {
+      console.log("got here")
+      const signer = await getProviderOrSigner(true);
+      console.log(signer)
+      const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, signer);
+      const tokenContract = new Contract(TOKEN_ADDRESS, TOKEN_ABI, signer);
+      let txn = await tokenContract.approve(gameContract.address, utils.parseEther("1"));
+      console.log("Approve")
+
+      await txn.wait();
+      console.log("Approve complete")
+      txn = await gameContract.predict(amount * 100000000);
+      await txn.wait();
+      console.log("prediction complete")
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   const getCurrentPrice = async () => {
     try {
       const provider = await getProviderOrSigner();
       const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
       let [currentPrice, timestamp] = await gameContract.currentResult();
       console.log("currentPrice", currentPrice);
-      setCurrentPrice(currentPrice.toString());
+      setCurrentPrice((currentPrice / 100000000).toString());
       console.log("timestamp", timestamp * 1000);
     } catch (err) {
       console.error(err);
@@ -71,17 +92,11 @@ const Home = () => {
 
   const getTime = () =>{
     
+
+   setInterval(function () {
     var countDownDate = new Date(nextContestTime).getTime();
-
-    // Update the count down every 1 second
-    var x = setInterval(function () {
-      // Get today's date and time
       var now = new Date().getTime();
-
-      // Find the distance between now and the count down date
       var distance = countDownDate - now;
-
-      // Time calculations for days, hours, minutes and seconds
       var days = Math.floor(distance / (1000 * 60 * 60 * 24));
       var hours = Math.floor(
         (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -91,14 +106,11 @@ const Home = () => {
 
       // Display the result in the element with id="demo"
       // console.log(nextContestTime)
-      console.log(days + "d " + hours + "h " + minutes + "m " + seconds + "s ")
+      // console.log(days + "d " + hours + "h " + minutes + "m " + seconds + "s ")
       sethours(hours)
       setminutes(minutes)
       setseconds(seconds)
       // If the count down is finished, write some text
-      if (distance < 0) {
-        clearInterval(x);
-      }
     }, 1000);
   }
 
@@ -213,7 +225,7 @@ const Home = () => {
       </Head>
       {
         predict ? (
-          <PredictionPage nextContextTime={nextContestTime} currentPrice={currentPrice} onclick={() => setpredict(false)} hours={hours} minutes={minutes} seconds={seconds} />
+          <PredictionPage predictPrice={predictPrice} nextContextTime={nextContestTime} currentPrice={currentPrice} onclick={() => setpredict(false)} hours={hours} minutes={minutes} seconds={seconds} />
         ) : (
           <>
             {walletConnected && (

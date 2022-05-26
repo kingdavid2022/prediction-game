@@ -15,6 +15,7 @@ export type PredictionPageProps = {
   hours: number;
   minutes: number;
   seconds: number;
+  predictPrice:any,
 };
 
 export type ListProps = {

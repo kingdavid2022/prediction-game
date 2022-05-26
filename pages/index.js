@@ -23,6 +23,9 @@ const Home = () => {
   const [nextContestTime, setNextContestTime] = useState();
   const [predict, setpredict] = useState(false)
   const [currentPrice, setCurrentPrice] = useState("");
+  const [hours, sethours] = useState(0)
+  const [minutes, setminutes] = useState(0)
+  const [seconds, setseconds] = useState(0)
   const connectWallet = async () => {
     try {
       await getProviderOrSigner();
@@ -54,43 +57,52 @@ const Home = () => {
       let lastTimeStamp = (await gameContract.lastTimeStamp()) * 1000;
       let interval = (await gameContract.interval()) * 1000;
       let name = await gameContract.name();
-      console.log("name=>", name);
-      console.log("lastTimeStamp=>", lastTimeStamp);
-      console.log("interval=>", interval);
+      // console.log("name=>", name);
+      // console.log("lastTimeStamp=>", lastTimeStamp);
+      // console.log("interval=>", interval);
       setNextContestTime(lastTimeStamp + interval);
       // let date = Date(lastTimeStamp + interval)
-
-      var countDownDate = new Date(nextContestTime).getTime();
-
-      // Update the count down every 1 second
-      var x = setInterval(function () {
-        // Get today's date and time
-        var now = new Date().getTime();
-
-        // Find the distance between now and the count down date
-        var distance = countDownDate - now;
-
-        // Time calculations for days, hours, minutes and seconds
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor(
-          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Display the result in the element with id="demo"
-        console.log(days + "d " + hours + "h " + minutes + "m " + seconds + "s ")
-        // If the count down is finished, write some text
-        if (distance < 0) {
-          clearInterval(x);
-        }
-      }, 1000);
 
       console.log("nextContest=", date);
     } catch (err) {
       console.error(err);
     }
   };
+
+  const getTime = () =>{
+    
+    var countDownDate = new Date(nextContestTime).getTime();
+
+    // Update the count down every 1 second
+    var x = setInterval(function () {
+      // Get today's date and time
+      var now = new Date().getTime();
+
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // Display the result in the element with id="demo"
+      // console.log(nextContestTime)
+      console.log(days + "d " + hours + "h " + minutes + "m " + seconds + "s ")
+      sethours(hours)
+      setminutes(minutes)
+      setseconds(seconds)
+      // If the count down is finished, write some text
+      if (distance < 0) {
+        clearInterval(x);
+      }
+    }, 1000);
+  }
+
+
   const getFirstTimeOrNotAndBalance = async () => {
     try {
       const signer = await getProviderOrSigner(true);
@@ -155,6 +167,7 @@ const Home = () => {
       });
       connectWallet();
     }
+    getTime()
   }, [walletConnected]);
 
   const RenderTabs = () => {
@@ -167,6 +180,9 @@ const Home = () => {
             price={2}
             date={"May 10"}
             onclick={() => setpredict(true)}
+            hours={hours}
+            minutes={minutes}
+            seconds={seconds}
           />
         </div>
       );
@@ -197,7 +213,7 @@ const Home = () => {
       </Head>
       {
         predict ? (
-          <PredictionPage nextContextTime={nextContestTime} currentPrice={currentPrice} onclick={() => setpredict(false)} />
+          <PredictionPage nextContextTime={nextContestTime} currentPrice={currentPrice} onclick={() => setpredict(false)} hours={hours} minutes={minutes} seconds={seconds} />
         ) : (
           <>
             {walletConnected && (

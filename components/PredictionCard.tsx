@@ -4,7 +4,9 @@ import { PredictionCardProps } from "../constants/types";
 
 const PredictionCard = ({
   token,
-  timeLeft,
+   hours,
+   minutes,
+   seconds,
   price,
   date,
   onclick
@@ -19,8 +21,8 @@ const PredictionCard = ({
             {token}
           </span>
         </div>
-        <span className="text-[#26a521] text-[1.5rem] text-bold ml-[-30%]">
-          {timeLeft} Left
+        <span className="text-[#26a521] text-[1rem] text-bold ml-[-30%]">
+          {hours<10?`0${hours}`:hours}hr {minutes<10?`0${minutes}`:minutes}m {seconds<10?`0${seconds}`:seconds}s Left
         </span>
       </div>
       <div className="w-[100%] h-[50%] flex flex-col items-start justify-center mt-[3%]">

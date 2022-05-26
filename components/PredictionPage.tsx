@@ -4,43 +4,11 @@ import { useRouter } from "next/router";
 import PredictionList from '../components/PredictionList';
 import { PredictionPageProps } from "../constants/types";
 
-const PredictionPage = ({ onclick, currentPrice, nextContextTime }:PredictionPageProps) => {
+const PredictionPage = ({ onclick, currentPrice, nextContextTime, hours, minutes, seconds }:PredictionPageProps) => {
   const [price, setprice] = useState('')
   const [token, settoken] = useState('')
-  const getTime = () =>{
-    
-    var countDownDate = new Date(nextContextTime).getTime();
+ 
 
-    // Update the count down every 1 second
-    var x = setInterval(function () {
-      // Get today's date and time
-      var now = new Date().getTime();
-
-      // Find the distance between now and the count down date
-      var distance = countDownDate - now;
-
-      // Time calculations for days, hours, minutes and seconds
-      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      var hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      // Display the result in the element with id="demo"
-      console.log(days + "d " + hours + "h " + minutes + "m " + seconds + "s ")
-      // If the count down is finished, write some text
-      if (distance < 0) {
-        clearInterval(x);
-      }
-    }, 1000);
-  }
-
-  useEffect(() => {
-    
-  getTime();
-  }, [])
-  
 
   return (
     <div className="absolute w-screen h-screen flex flex-col items-center justify-center bg-image">
@@ -56,6 +24,7 @@ const PredictionPage = ({ onclick, currentPrice, nextContextTime }:PredictionPag
         <span className="text-black text-[1rem] text-center sm:text-[1.2rem] mt-2 sm:mt-0">
           Predict ETH/USD price on 12:00, May 10
         </span>
+        <span>{hours} Hours {minutes} minutes and {seconds} seconds left</span>
         <div className="w-[100%] h-[100%] flex flex-col sm:flex-row items-center justify-start sm:justify-evenly">
           <div className="w-[100%] h-[45%] sm:w-[45%] sm:h-[90%] flex flex-col items-center sm:items-start justify-center sm:justify-between box-border sm:pl-[5%]">
             <span className="text-black font-bold text-[1.4rem] sm:text-[2rem] my-4 sm:my-0">YOUR PREDICTION</span>

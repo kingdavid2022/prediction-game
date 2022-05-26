@@ -7,7 +7,13 @@ import { Tabs } from "../constants/types";
 
 import Web3Modal from "web3modal";
 import { providers, Contract, utils } from "ethers";
-import { TOKEN_ABI, TOKEN_ADDRESS, ETHUSD_ADDRESS, GAME_ABI } from "../constants/contract";
+import {
+  TOKEN_ABI,
+  TOKEN_ADDRESS,
+  ETHUSD_ADDRESS,
+  GAME_ABI,
+} from "../constants/contract";
+import PredictionPage from "../components/PredictionPage";
 
 const Home = () => {
   const [tab, setTab] = useState("contest");
@@ -33,8 +39,8 @@ const Home = () => {
       const provider = await getProviderOrSigner();
       const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
 
-      let lastTimeStamp = await gameContract.lastTimeStamp() * 1000;
-      let interval = await gameContract.interval() * 1000;
+      let lastTimeStamp = (await gameContract.lastTimeStamp()) * 1000;
+      let interval = (await gameContract.interval()) * 1000;
       let name = await gameContract.name();
       console.log("name=>", name);
       console.log("lastTimeStamp=>", lastTimeStamp);
@@ -42,11 +48,38 @@ const Home = () => {
       setGameName(name);
       setNextContestTime(lastTimeStamp + interval);
       // let date = Date(lastTimeStamp + interval)
-      console.log("nextContest=", date)
+
+      var countDownDate = new Date(nextContestTime).getTime();
+
+      // Update the count down every 1 second
+      var x = setInterval(function () {
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result in the element with id="demo"
+        console.log(days + "d " + hours + "h " + minutes + "m " + seconds + "s ")
+        // If the count down is finished, write some text
+        if (distance < 0) {
+          clearInterval(x);
+        }
+      }, 1000);
+
+      console.log("nextContest=", date);
     } catch (err) {
       console.error(err);
     }
-  }
+  };
   const getFirstTimeOrNotAndBalance = async () => {
     try {
       const signer = await getProviderOrSigner(true);
@@ -172,20 +205,23 @@ const Home = () => {
       <div className=" fixed w-[100%] h-[18vh] sm:h-[20vh] flex bg-black items-end sm:items-center justify-start box-border pl-[4%]">
         <button
           onClick={() => setTab("contest")}
-          className={`w-[30%] h-[30%] sm:w-[13%] sm:h-[40%] bg-[#343434] mr-[3%] rounded-[10px] ${tab == "contest" ? "text-[#099E71]" : "text-white"
-            } text-[1.3rem] ml-[2%]`}
+          className={`w-[30%] h-[30%] sm:w-[13%] sm:h-[40%] bg-[#343434] mr-[3%] rounded-[10px] ${
+            tab == "contest" ? "text-[#099E71]" : "text-white"
+          } text-[1.3rem] ml-[2%]`}
         >
           Contests
         </button>
         <button
           onClick={() => setTab("Your Predictions")}
-          className={` w-[45%] h-[30%] sm:w-[18%] sm:h-[40%] bg-[#343434] rounded-[10px] ${tab == "Your Predictions" ? "text-[#099E71]" : "text-white"
-            } text-[1.2rem] sm:text-[1.3rem]`}
+          className={` w-[45%] h-[30%] sm:w-[18%] sm:h-[40%] bg-[#343434] rounded-[10px] ${
+            tab == "Your Predictions" ? "text-[#099E71]" : "text-white"
+          } text-[1.2rem] sm:text-[1.3rem]`}
         >
           Your Predictions
         </button>
       </div>
       <RenderTabs />
+      <PredictionPage />
     </div>
   );
 };

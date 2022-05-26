@@ -44,8 +44,8 @@ const Home = () => {
     try {
       const provider = await getProviderOrSigner();
       const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
-      gameContract.on("NewPrediction",( contestId,value,time, from)=>{
-        console.log("event",from);
+      gameContract.on("NewPrediction", (contestId, value, time, from) => {
+        console.log("event", from);
         getCurrentContest();
       })
     } catch (err) {
@@ -55,13 +55,22 @@ const Home = () => {
   const readAllEvents = async () => {
     try {
       const provider = await getProviderOrSigner();
+      const signer = await getProviderOrSigner(true);
+      let address = await signer.getAddress();
       const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
       let cid = await gameContract.contestId();
       let currentFilter = gameContract.filters.NewPrediction(cid.toNumber());
       let resultFilter = gameContract.filters.Result();
       let contestCancelledFilter = gameContract.filters.ContestCancelled();
-      let events = await gameContract.queryFilter(ContestCancelledFilter);
-      console.log(events)
+      let cancelled = await gameContract.queryFilter(contestCancelledFilter);
+      let cancelledArray = cancelled.map(data => {
+        return (data.args[0].toNumber())
+      })
+      console.log(cancelledArray)
+      // {
+      //   reward;
+      //   status:true | false;
+      // }
     } catch (err) {
       console.error(err);
     }

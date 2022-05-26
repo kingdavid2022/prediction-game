@@ -20,7 +20,6 @@ const Home = () => {
   const [minting, setMinting] = useState(false);
   const web3ModalRef = useRef();
   const [notFirstTime, setnotFirstTime] = useState(false);
-  const [gameName, setGameName] = useState("");
   const [nextContestTime, setNextContestTime] = useState();
   const [predict, setpredict] = useState(false)
   const connectWallet = async () => {
@@ -56,7 +55,6 @@ const Home = () => {
       console.log("name=>", name);
       console.log("lastTimeStamp=>", lastTimeStamp);
       console.log("interval=>", interval);
-      setGameName(name);
       setNextContestTime(lastTimeStamp + interval);
       // let date = Date(lastTimeStamp + interval)
 
@@ -162,7 +160,7 @@ const Home = () => {
       return (
         <div className="w-[90%] mt-[17vh] grid grid-cols-1 place-items-center sm:grid-cols-3 scrollbar-hide sm:mt-[10%]">
           <PredictionCard
-            token={gameName}
+            token={"ETH/USD"}
             timeLeft={"9hr"}
             price={2}
             date={"May 10"}

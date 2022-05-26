@@ -7,7 +7,10 @@ export type PredictionCardProps = {
    onclick:any
 }
 export type PredictionPageProps = {
-    onclick:any
+    onclick:any,
+    currentPrice:string | number,
+    nextContextTime:string | Date,
+    
  }
  
 

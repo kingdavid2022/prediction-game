@@ -40,7 +40,7 @@ const Home = () => {
       const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
       let [currentPrice, timestamp] = await gameContract.currentResult();
       console.log("currentPrice", currentPrice);
-      setCurrentPrice(currentPrice.toString());
+      setCurrentPrice((currentPrice/100000000).toString());
       console.log("timestamp", timestamp * 1000);
     } catch (err) {
       console.error(err);

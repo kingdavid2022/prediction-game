@@ -7,6 +7,7 @@ export type PredictionCardProps = {
   onclick: any;
 };
 export type PredictionPageProps = {
+  predictButtonStatus:string;
   onclick: any;
   currentPrice: string | number;
   nextContextTime: string | Date;

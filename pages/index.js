@@ -36,7 +36,7 @@ const Home = () => {
       setnotFirstTime(notFirstTime);
       setbalance(balance)
       console.log(notFirstTime);
-      console.log("balance=>",balance);
+      console.log("balance=>",utils.formatEther(balance));
     } catch (err) {
       console.error(err);
     }
@@ -139,7 +139,11 @@ const Home = () => {
           Connect wallet
         </button>
       ):(
+<<<<<<< HEAD
         <button className={` fixed z-[10] bg-[#099E71] top-[50px] sm:top-[20px] min-h-[30px] min-w-[100px] sm:w-[7vw] sm:min-h-[35px] rounded-[10px] sm:max-h-[40px] right-[20px] sm:right-[40px]`}>
+=======
+        <button onClick={mintToken} className={` fixed z-[10] bg-[#099E71] top-[50px] sm:top-[20px] min-h-[30px] min-w-[100px] sm:w-[7vw] sm:min-h-[35px] rounded-[10px] sm:max-h-[40px] right-[20px] sm:right-[20px]`}>
+>>>>>>> 70ab14957d3e110dd969ecbc665bd03399c410f6
         {!notFirstTime ? "Mint":"Mint(0.01eth)"}
       </button>
       )}

@@ -12,7 +12,7 @@ import { TOKEN_ABI, TOKEN_ADDRESS } from "../constants/contract";
 const Home: NextPage = () => {
   const [tab, setTab] = useState<Tabs>("contest");
   const [walletConnected, setWalletConnected] = useState(false);
-  const web3ModalRef = useRef();
+  const web3ModalRef = useRef<any>();
   const connectWallet = async () => {
     try {
       await getProviderOrSigner();

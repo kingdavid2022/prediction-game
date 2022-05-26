@@ -155,7 +155,6 @@ const Home = () => {
       });
       connectWallet();
     }
-    console.log(web3ModalRef.current);
   }, [walletConnected]);
 
   const RenderTabs = () => {
@@ -202,7 +201,7 @@ const Home = () => {
         ):(
           <>
           {walletConnected && (
-        <div className="fixed z-[10] flex items-center justify-center top-[50px] sm:top-[60px] min-h-[30px] min-w-[180px] text-white sm:w-[7vw] sm:min-h-[35px] rounded-[10px] sm:max-h-[40px] right-[20px] sm:right-[0px]">
+        <div className="fixed z-[10] flex items-center justify-center top-[80px] sm:top-[60px] min-h-[30px] min-w-[180px] text-white sm:w-[7vw] sm:min-h-[35px] rounded-[10px] sm:max-h-[40px] right-[-10px] sm:right-[0px]">
           balance: {balance}
         </div>
       )}

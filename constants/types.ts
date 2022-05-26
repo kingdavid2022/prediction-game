@@ -1,9 +1,7 @@
 export type PredictionCardProps = {
   logo: string;
   token: string;
-  hours: number;
-  minutes: number;
-  seconds: number;
+  time:Date
   price: number;
   date: string;
   onclick: any;
@@ -12,9 +10,7 @@ export type PredictionPageProps = {
   onclick: any;
   currentPrice: string | number;
   nextContextTime: string | Date;
-  hours: number;
-  minutes: number;
-  seconds: number;
+  time:Date
   predictPrice:any,
 };
 

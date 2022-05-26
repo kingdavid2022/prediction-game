@@ -34,11 +34,24 @@ const Home = () => {
       getCurrentPrice();
       getCurrentContest();
       readAllEvents();
+      predictionListener();
     } catch (err) {
       console.error(err);
     }
   };
 
+  const predictionListener = async () => {
+    try {
+      const provider = await getProviderOrSigner();
+      const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
+      gameContract.on("NewPrediction",( contestId,value,time, from)=>{
+        console.log("event",from);
+        getCurrentContest();
+      })
+    } catch (err) {
+      console.error(err);
+    }
+  }
   const readAllEvents = async () => {
     try {
       const provider = await getProviderOrSigner();

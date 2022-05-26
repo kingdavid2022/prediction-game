@@ -9,11 +9,11 @@ import Web3Modal from "web3modal";
 import { providers, Contract } from "ethers";
 import { TOKEN_ABI, TOKEN_ADDRESS } from "../constants/contract";
 
-const Home: NextPage = () => {
-  const [tab, setTab] = useState<Tabs>("contest");
+const Home = () => {
+  const [tab, setTab] = useState("contest");
   const [walletConnected, setWalletConnected] = useState(false);
-  const [notFirstTime, setnotFirstTime] = useState<boolean>(false)
-  const web3ModalRef = useRef<any>();
+  const [notFirstTime, setnotFirstTime] = useState(false)
+  const web3ModalRef = useRef();
   const connectWallet = async () => {
     try {
       await getProviderOrSigner();
@@ -59,6 +59,7 @@ const Home: NextPage = () => {
       });
       connectWallet();
     }
+    console.log(web3ModalRef.current)
   }, [walletConnected]);
 
   const RenderTabs = () => {

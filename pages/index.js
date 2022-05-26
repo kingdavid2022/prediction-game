@@ -24,6 +24,7 @@ const Home = () => {
   const [predict, setpredict] = useState(false);
   const [currentPrice, setCurrentPrice] = useState("");
   const [predictButtonStatus, setPredictButtonStatus] = useState("Predict");
+  const [currentArray, setCurrentArray] = useState([])
   const connectWallet = async () => {
     try {
       await getProviderOrSigner();
@@ -31,7 +32,7 @@ const Home = () => {
       getFirstTimeOrNotAndBalance();
       getGameDetails();
       getCurrentPrice();
-      readEvents();
+      getCurrentContest();
     } catch (err) {
       console.error(err);
     }
@@ -39,12 +40,12 @@ const Home = () => {
 
   const readEvents = async () => {
     try {
-      console.log("got here");
       const provider = await getProviderOrSigner();
       const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
       let cid = await gameContract.contestId();
-      console.log("CONTEST-ID=", cid.toString());
+      console.log(cid.toNumber())
       let eventFilter = gameContract.filters.NewPrediction(0);
+      let resultFilter = gameContract.filters.Result();
       let events = await gameContract.queryFilter(eventFilter);
       events.map((event) => {
         console.log("contestId=", event.args[0].toString());
@@ -52,6 +53,27 @@ const Home = () => {
         console.log("time", Date(event.args[2].toString()));
         console.log("from", event.args[3].toString());
       });
+      let res = await gameContract.queryFilter(resultFilter);
+      console.log(res)
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const getCurrentContest = async () => {
+    try {
+      const provider = await getProviderOrSigner();
+      const signer = await getProviderOrSigner(true);
+      let address = await signer.getAddress()
+      const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
+      let cid = await gameContract.contestId();
+      let eventFilter = gameContract.filters.NewPrediction(cid.toNumber());
+      let events = await gameContract.queryFilter(eventFilter);
+      let arr = events.map((event) => {
+        let owner = event.args[3].toString() == address;
+        return ({ value: (event.args[1] / 100000000).toString(), owner });
+      });
+      console.log(arr)
+      setCurrentArray(arr.reverse())
     } catch (err) {
       console.error(err);
     }
@@ -74,6 +96,7 @@ const Home = () => {
       txn = await gameContract.predict(amount * 100000000);
       setPredictButtonStatus("Wait..");
       await txn.wait();
+      getCurrentContest();
       setPredictButtonStatus("Predict");
     } catch (err) {
       console.error(err);
@@ -217,6 +240,7 @@ const Home = () => {
       </Head>
       {predict ? (
         <PredictionPage
+          currentArray={currentArray}
           predictButtonStatus={predictButtonStatus}
           predictPrice={predictPrice}
           nextContextTime={nextContestTime}
@@ -247,17 +271,15 @@ const Home = () => {
           <div className=" fixed w-[100%] h-[18vh] sm:h-[20vh] flex  items-end sm:items-center justify-start box-border pl-[4%]">
             <button
               onClick={() => setTab("contest")}
-              className={`w-[30%] h-[25%] sm:w-[13%] sm:h-[40%] mr-[3%] rounded-[10px] ${
-                tab == "contest" ? "text-[#000000]" : "text-white"
-              } text-[1.3rem] ml-[2%]`}
+              className={`w-[30%] h-[25%] sm:w-[13%] sm:h-[40%] mr-[3%] rounded-[10px] ${tab == "contest" ? "text-[#000000]" : "text-white"
+                } text-[1.3rem] ml-[2%]`}
             >
               Contests
             </button>
             <button
               onClick={() => setTab("Your Predictions")}
-              className={` w-[45%] h-[25%] sm:w-[18%] sm:h-[40%]  rounded-[10px] ${
-                tab == "Your Predictions" ? "text-[#000000]" : "text-white"
-              } text-[1.2rem] sm:text-[1.3rem]`}
+              className={` w-[45%] h-[25%] sm:w-[18%] sm:h-[40%]  rounded-[10px] ${tab == "Your Predictions" ? "text-[#000000]" : "text-white"
+                } text-[1.2rem] sm:text-[1.3rem]`}
             >
               Your Predictions
             </button>

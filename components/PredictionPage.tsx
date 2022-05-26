@@ -5,6 +5,7 @@ import PredictionList from "../components/PredictionList";
 import { PredictionPageProps } from "../constants/types";
 
 const PredictionPage = ({
+  currentArray,
   predictButtonStatus,
   onclick,
   predictPrice,
@@ -13,6 +14,10 @@ const PredictionPage = ({
   time,
 }: PredictionPageProps) => {
   const [amount, setAmount] = useState("");
+  useEffect(() => {
+    console.log(currentArray);
+  }, [currentArray]);
+
   return (
     <div className="absolute w-screen h-screen flex flex-col items-center justify-center bg-image">
       <Head>
@@ -70,20 +75,17 @@ const PredictionPage = ({
               LAST PREDICTION
             </span>
             <div className="flex flex-col w-[100%] h-[100%] sm:h-[80%] justify-start overflow-y-scroll items-center sm:items-start box-border sm:pl-[25%] scrollbar-hide">
-              <PredictionList index={1} price={"0.000000"} owner={false} />
-              <PredictionList index={2} price={0} owner={false} />
-              <PredictionList index={3} price={"0.000000"} owner={false} />
-              <PredictionList index={4} price={"0.000000"} owner={false} />
-              <PredictionList index={5} price={1} owner={true} />
-              <PredictionList index={6} price={"0.000000"} owner={false} />
-              <PredictionList index={7} price={1.2} owner={false} />
-              <PredictionList index={8} price={"0.000000"} owner={false} />
-              <PredictionList index={9} price={"0.000000"} owner={false} />
-              <PredictionList index={5} price={1} owner={false} />
-              <PredictionList index={6} price={"0.000000"} owner={false} />
-              <PredictionList index={7} price={1.2} owner={false} />
-              <PredictionList index={8} price={"0.000000"} owner={false} />
-              <PredictionList index={9} price={"0.000000"} owner={false} />
+              {currentArray &&
+                currentArray.map(
+                  (data: { value: string; owner: boolean }, index: number) => (
+                    <PredictionList
+                      key={index}
+                      index={index + 1}
+                      price={data.value}
+                      owner={data.owner}
+                    />
+                  )
+                )}
             </div>
           </div>
         </div>

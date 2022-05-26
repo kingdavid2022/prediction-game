@@ -22,6 +22,7 @@ const Home = () => {
   const [notFirstTime, setnotFirstTime] = useState(false);
   const [nextContestTime, setNextContestTime] = useState();
   const [predict, setpredict] = useState(false)
+  const [currentPrice, setCurrentPrice] = useState("");
   const connectWallet = async () => {
     try {
       await getProviderOrSigner();
@@ -37,9 +38,10 @@ const Home = () => {
     try {
       const provider = await getProviderOrSigner();
       const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
-      let [currentPrice,timestamp] = await gameContract.currentResult();
-      console.log("currentPrice",currentPrice);
-      console.log("timestamp",timestamp*1000);
+      let [currentPrice, timestamp] = await gameContract.currentResult();
+      console.log("currentPrice", currentPrice);
+      setCurrentPrice(currentPrice.toString());
+      console.log("timestamp", timestamp * 1000);
     } catch (err) {
       console.error(err);
     }
@@ -195,48 +197,48 @@ const Home = () => {
       </Head>
       {
         predict ? (
-          <PredictionPage  onclick={() => setpredict(false)}/>
-        ):(
+          <PredictionPage nextContextTime={nextContestTime} currentPrice={currentPrice} onclick={() => setpredict(false)} />
+        ) : (
           <>
-          {walletConnected && (
-        <div className="fixed z-[10] flex items-center justify-center top-[80px] sm:top-[60px] min-h-[30px] min-w-[180px] text-white sm:w-[7vw] sm:min-h-[35px] rounded-[10px] sm:max-h-[40px] right-[-10px] sm:right-[0px]">
-          balance: {balance}
-        </div>
-      )}
-      {!walletConnected ? (
-        <button className="fixed z-[20] bg-[#ffffff]  border-[5px] border-black top-[30px] right-[30px] sm:w-[10vw] min-w-[150px] min-h-[30px] sm:min-h-[35px] rounded-[5px] max-h-[40px] ">
-          Connect wallet
-        </button>
-      ) : (
-        <button
-          onClick={mintToken}
-          className={` fixed z-[10] bg-[#ffffff] top-[50px] sm:top-[20px] min-h-[30px] min-w-[100px] sm:w-[7vw] sm:min-h-[35px] rounded-[10px] sm:max-h-[40px] right-[20px] sm:right-[40px]`}
-        >
-          {minting ? "Minting" : !notFirstTime ? "Mint" : "Mint(0.01eth)"}
-        </button>
-      )}
+            {walletConnected && (
+              <div className="fixed z-[10] flex items-center justify-center top-[80px] sm:top-[60px] min-h-[30px] min-w-[180px] text-white sm:w-[7vw] sm:min-h-[35px] rounded-[10px] sm:max-h-[40px] right-[-10px] sm:right-[0px]">
+                balance: {balance}
+              </div>
+            )}
+            {!walletConnected ? (
+              <button className="fixed z-[20] bg-[#ffffff]  border-[5px] border-black top-[30px] right-[30px] sm:w-[10vw] min-w-[150px] min-h-[30px] sm:min-h-[35px] rounded-[5px] max-h-[40px] ">
+                Connect wallet
+              </button>
+            ) : (
+              <button
+                onClick={mintToken}
+                className={` fixed z-[10] bg-[#ffffff] top-[50px] sm:top-[20px] min-h-[30px] min-w-[100px] sm:w-[7vw] sm:min-h-[35px] rounded-[10px] sm:max-h-[40px] right-[20px] sm:right-[40px]`}
+              >
+                {minting ? "Minting" : !notFirstTime ? "Mint" : "Mint(0.01eth)"}
+              </button>
+            )}
 
-      <div className=" fixed w-[100%] h-[18vh] sm:h-[20vh] flex  items-end sm:items-center justify-start box-border pl-[4%]">
-        <button
-          onClick={() => setTab("contest")}
-          className={`w-[30%] h-[25%] sm:w-[13%] sm:h-[40%] mr-[3%] rounded-[10px] ${tab == "contest" ? "text-[#000000]" : "text-white"
-            } text-[1.3rem] ml-[2%]`}
-        >
-          Contests
-        </button>
-        <button
-          onClick={() => setTab("Your Predictions")}
-          className={` w-[45%] h-[25%] sm:w-[18%] sm:h-[40%]  rounded-[10px] ${tab == "Your Predictions" ? "text-[#000000]" : "text-white"
-            } text-[1.2rem] sm:text-[1.3rem]`}
-        >
-          Your Predictions
-        </button>
-      </div>
-      <RenderTabs />
+            <div className=" fixed w-[100%] h-[18vh] sm:h-[20vh] flex  items-end sm:items-center justify-start box-border pl-[4%]">
+              <button
+                onClick={() => setTab("contest")}
+                className={`w-[30%] h-[25%] sm:w-[13%] sm:h-[40%] mr-[3%] rounded-[10px] ${tab == "contest" ? "text-[#000000]" : "text-white"
+                  } text-[1.3rem] ml-[2%]`}
+              >
+                Contests
+              </button>
+              <button
+                onClick={() => setTab("Your Predictions")}
+                className={` w-[45%] h-[25%] sm:w-[18%] sm:h-[40%]  rounded-[10px] ${tab == "Your Predictions" ? "text-[#000000]" : "text-white"
+                  } text-[1.2rem] sm:text-[1.3rem]`}
+              >
+                Your Predictions
+              </button>
+            </div>
+            <RenderTabs />
           </>
         )
       }
-     
+
     </div>
   );
 };

@@ -62,7 +62,7 @@ const PredictionPage = ({ onclick, currentPrice, nextContextTime }:PredictionPag
             <input type="text" className="w-[75%] h-[15%] bg-[#e3e3e3] rounded-[15px] pl-[5%] text-[1.5rem] focus:outline-none" placeholder="0.00000" />
             <div className=" w-[100%] flex flex-col items-center my-3 sm:my-0 sm:items-start">
               <span className="text-black text-[1.3rem]">Participation fee : 1 Token</span>
-              <span className="text-black text-[1.3rem]">Current price : #####</span>
+              <span className="text-black text-[1.3rem]">Current price : {currentPrice}</span>
             </div>
             <button className="self-end -mt-[2px] sm:mt-0 w-[30%] min-h-[30px] max-h-[40px] rounded-[10px] bg-[#099E71] m-9 text-black text-[1.3rem]">Predict</button>
           </div>

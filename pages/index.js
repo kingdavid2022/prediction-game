@@ -304,7 +304,7 @@ const Home = () => {
             <button
               onClick={() => setTab("contest")}
               className={`w-[30%] h-[25%] sm:w-[13%] sm:h-[40%] mr-[3%] rounded-[10px] ${
-                tab == "contest" ? "text-[#000000]" : "text-white"
+                tab == "contest" ? "text-[#099E71]" : "text-black"
               } text-[1.3rem] ml-[2%]`}
             >
               Contests
@@ -312,7 +312,7 @@ const Home = () => {
             <button
               onClick={() => setTab("Your Predictions")}
               className={` w-[45%] h-[25%] sm:w-[18%] sm:h-[40%]  rounded-[10px] ${
-                tab == "Your Predictions" ? "text-[#000000]" : "text-white"
+                tab == "Your Predictions" ? "text-[#099E71]" : "text-black"
               } text-[1.2rem] sm:text-[1.3rem]`}
             >
               Your Predictions

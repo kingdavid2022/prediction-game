@@ -308,7 +308,7 @@ const Home = () => {
             </button>
           )}
 
-          <div className=" fixed w-[100%] h-[18vh] sm:h-[20vh] flex  items-end sm:items-center justify-start box-border pl-[4%]">
+          <div className=" fixed w-[100%] h-[18vh] backdrop-blur-3xl sm:backdrop-blur-3xl sm:h-[20vh] flex  items-end sm:items-center justify-start box-border pl-[4%]">
             <button
               onClick={() => setTab("contest")}
               className={`w-[30%] h-[25%] sm:w-[13%] sm:h-[40%] mr-[3%] rounded-[10px] ${tab == "contest" ? "text-[#000000]" : "text-white"

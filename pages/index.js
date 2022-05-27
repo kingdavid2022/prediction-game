@@ -46,7 +46,6 @@ const Home = () => {
       const provider = await getProviderOrSigner();
       const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
       gameContract.on("NewPrediction", (contestId, value, time, from) => {
-        console.log("event", from);
         getCurrentContest();
       });
     } catch (err) {
@@ -60,7 +59,6 @@ const Home = () => {
       let address = await signer.getAddress();
       const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
       let cid = await gameContract.contestId();
-      console.log("cid", cid);
       let currentFilter = gameContract.filters.NewPrediction(cid.toNumber());
       let rewardArray = [4, 2.5, 1.5, 0.75, 0.25, 0.2, 0.2, 0.2, 0.2, 0.2];
       let contestCancelledFilter = gameContract.filters.ContestCancelled();
@@ -73,14 +71,12 @@ const Home = () => {
         if (cancelledArray.includes(i)) {
           let currentFilter = gameContract.filters.NewPrediction(i);
           let res = await gameContract.queryFilter(currentFilter);
-          // console.log(i, res)
           let a = res.map((r) => {
             if (r.args[3] == address) {
               return { reward: 1, completed: true };
             }
           });
           combinedArray = [...combinedArray, ...a];
-          console.log(a);
         } else {
           let resultFilter = gameContract.filters.Result(i);
           let res = await gameContract.queryFilter(resultFilter);
@@ -127,7 +123,6 @@ const Home = () => {
         let owner = event.args[3].toString() == address;
         return { value: (event.args[1] / 100000000).toString(), owner };
       });
-      console.log(arr);
       setCurrentArray(arr.reverse());
     } catch (err) {
       console.error(err);
@@ -135,9 +130,7 @@ const Home = () => {
   };
   const predictPrice = async (amount) => {
     try {
-      console.log("got here");
       const signer = await getProviderOrSigner(true);
-      console.log(signer);
       const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, signer);
       const tokenContract = new Contract(TOKEN_ADDRESS, TOKEN_ABI, signer);
       let txn = await tokenContract.approve(
@@ -163,9 +156,7 @@ const Home = () => {
       const provider = await getProviderOrSigner();
       const gameContract = new Contract(ETHUSD_ADDRESS, GAME_ABI, provider);
       let [currentPrice, timestamp] = await gameContract.currentResult();
-      console.log("currentPrice", currentPrice);
       setCurrentPrice((currentPrice / 100000000).toString());
-      console.log("timestamp", timestamp * 1000);
     } catch (err) {
       console.error(err);
     }
@@ -178,11 +169,8 @@ const Home = () => {
       let lastTimeStamp = (await gameContract.lastTimeStamp()) * 1000;
       let interval = (await gameContract.interval()) * 1000;
       let name = await gameContract.name();
-      // console.log("name=>", name);
-      // console.log("lastTimeStamp=>", lastTimeStamp);
-      // console.log("interval=>", interval);
+
       setNextContestTime(lastTimeStamp + interval);
-      // let date = Date(lastTimeStamp + interval)
     } catch (err) {
       console.error(err);
     }
@@ -198,8 +186,6 @@ const Home = () => {
       let balance = await tokenContract.balanceOf(address);
       setnotFirstTime(notFirstTime);
       setbalance(utils.formatEther(balance));
-      console.log(notFirstTime);
-      console.log("balance=>", utils.formatEther(balance));
     } catch (err) {
       console.error(err);
     }

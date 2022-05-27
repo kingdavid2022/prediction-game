@@ -101,11 +101,6 @@ const Home = () => {
         typeof element != undefined ? element : null
       );
       setAllTransactions(combinedArray.reverse());
-
-      // {
-      //   reward;
-      //   status:true | false;
-      // }
     } catch (err) {
       console.error(err);
     }
@@ -246,9 +241,6 @@ const Home = () => {
         <div className="w-[90%] mt-[17vh] grid grid-cols-1 place-items-center sm:grid-cols-3 scrollbar-hide sm:mt-[10%]">
           <PredictionCard
             token={"ETH/USD"}
-            timeLeft={"9hr"}
-            price={2}
-            date={"May 10"}
             onclick={() => setpredict(true)}
             time={new Date(nextContestTime)}
           />
@@ -311,15 +303,17 @@ const Home = () => {
           <div className=" fixed w-[100%] h-[18vh] backdrop-blur-3xl sm:backdrop-blur-3xl sm:h-[20vh] flex  items-end sm:items-center justify-start box-border pl-[4%]">
             <button
               onClick={() => setTab("contest")}
-              className={`w-[30%] h-[25%] sm:w-[13%] sm:h-[40%] mr-[3%] rounded-[10px] ${tab == "contest" ? "text-[#000000]" : "text-white"
-                } text-[1.3rem] ml-[2%]`}
+              className={`w-[30%] h-[25%] sm:w-[13%] sm:h-[40%] mr-[3%] rounded-[10px] ${
+                tab == "contest" ? "text-[#000000]" : "text-white"
+              } text-[1.3rem] ml-[2%]`}
             >
               Contests
             </button>
             <button
               onClick={() => setTab("Your Predictions")}
-              className={` w-[45%] h-[25%] sm:w-[18%] sm:h-[40%]  rounded-[10px] ${tab == "Your Predictions" ? "text-[#000000]" : "text-white"
-                } text-[1.2rem] sm:text-[1.3rem]`}
+              className={` w-[45%] h-[25%] sm:w-[18%] sm:h-[40%]  rounded-[10px] ${
+                tab == "Your Predictions" ? "text-[#000000]" : "text-white"
+              } text-[1.2rem] sm:text-[1.3rem]`}
             >
               Your Predictions
             </button>

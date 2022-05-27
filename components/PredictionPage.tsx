@@ -14,9 +14,7 @@ const PredictionPage = ({
   time,
 }: PredictionPageProps) => {
   const [amount, setAmount] = useState("");
-  useEffect(() => {
-    console.log(currentArray);
-  }, [currentArray]);
+ 
 
   return (
     <div className="absolute w-screen h-screen flex flex-col items-center justify-center bg-image">

@@ -5,8 +5,6 @@ import { PredictionCardProps } from "../constants/types";
 const PredictionCard = ({
   token,
   time,
-  price,
-  date,
   onclick,
 }: PredictionCardProps) => {
   const router = useRouter();
